@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import SVProgressHUD
 
 class AddViewController: UIViewController, UITextFieldDelegate {
     
@@ -31,7 +32,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     @IBAction func onTapedPostButton(sender: UIButton) {
         if textField.text != nil {
             self.create(textField.text!)
-            self.backToView()
+            self.backToHome()
         }else {
             self.showAlert()
         }
@@ -42,20 +43,15 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     func create(content: String) {
         let postObject: Data = Data(content: content)
         postObject.saveInBackground()
+        SVProgressHUD.showSuccessWithStatus("Succeeded to save")
+        
     }
     
-    
-    
-    //ViewControllerに戻る
-    func backToView() {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
     //TextFieldに入力してないときに、Alertを表示
     func showAlert() {
         let alert = UIAlertController(title: "文字を入力してください", message: "文字を入力せずに、POSTはできません", preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     
@@ -64,6 +60,17 @@ class AddViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         self.create(textField.text!)
         return true
+    }
+    
+    
+    //遅延させた後、ViewControllerに戻る
+    func backToHome() {
+        let delay = 3.5 * Double(NSEC_PER_SEC) //時間の指定
+        let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            //ここにコードを書く (今は4.5秒後に実行される)
+            self.navigationController?.popViewControllerAnimated(true)
+        })
     }
     
     

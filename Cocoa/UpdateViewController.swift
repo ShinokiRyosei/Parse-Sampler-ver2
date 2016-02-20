@@ -21,7 +21,6 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
         
         textView.delegate = self
         let deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "delete")
-//        navigationController?.navigationItem.rightBarButtonItem = deleteButton
         self.navigationItem.rightBarButtonItem = deleteButton
 
         // Do any additional setup after loading the view.
@@ -50,7 +49,6 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
     
     //更新
     func update() {
-        print("id...\(id)")
         let query: PFQuery = PFQuery(className: Data.parseClassName())
         query.getObjectInBackgroundWithId(id) { (object, error) -> Void in
             SVProgressHUD.show()
@@ -66,8 +64,7 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
             }
             
         }
-//        self.dismissViewControllerAnimated(true, completion: nil)
-        self.navigationController?.popViewControllerAnimated(true)
+        self.backToHome()
     }
     
     //削除
@@ -83,19 +80,17 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
                 SVProgressHUD.showErrorWithStatus("Failed to delete")
             }
         }
-//        self.dismissViewControllerAnimated(true, completion: nil)
-        self.navigationController?.popViewControllerAnimated(true) 
+        self.backToHome()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    //遅延させた後、ViewControllerに戻る
+    func backToHome() {
+        let delay = 0.5 * Double(NSEC_PER_SEC) //時間の指定
+        let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            //ここにコードを書く (今は4.5秒後に実行される)
+            self.navigationController?.popViewControllerAnimated(true)
+        })
     }
-    */
 
 }
