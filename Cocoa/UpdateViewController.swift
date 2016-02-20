@@ -10,16 +10,16 @@ import UIKit
 import Parse
 import SVProgressHUD
 
-class UpdateViewController: UIViewController, UITextViewDelegate {
+class UpdateViewController: UIViewController, UITextFieldDelegate {
     
     var id: String!
     var text: String!
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var textField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.delegate = self
+        textField.delegate = self
         let deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "delete")
         self.navigationItem.rightBarButtonItem = deleteButton
 
@@ -28,7 +28,7 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        textView.text = text
+        textField.text = text
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,8 +42,8 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
         
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
-        textView.resignFirstResponder()
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         return true
     }
     
@@ -54,7 +54,7 @@ class UpdateViewController: UIViewController, UITextViewDelegate {
             SVProgressHUD.show()
             if error == nil {
                 if let parseObject: Data = object! as! Data {
-                    parseObject["content"] = self.textView.text!
+                    parseObject["content"] = self.textField.text!
                     parseObject.saveInBackground()
                     SVProgressHUD.showSuccessWithStatus("Succeeded to update")
                 }else {

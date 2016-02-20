@@ -65,7 +65,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! TableViewCell
-//        cell.createdAtLabel.text = contentArray[indexPath.row]["createdAt"] as? String
         cell.contentLabel.text = contentArray[indexPath.row]
         return cell
     }
