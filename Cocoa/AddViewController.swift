@@ -14,7 +14,6 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var postButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +29,7 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func onTapedPostButton(sender: UIButton) {
-        if textField.text != nil {
+        if textField.text != "" {
             self.create(textField.text!)
             self.backToHome()
         }else {
@@ -52,6 +51,8 @@ class AddViewController: UIViewController, UITextFieldDelegate {
     func showAlert() {
         let alert = UIAlertController(title: "文字を入力してください", message: "文字を入力せずに、POSTはできません", preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        //ViewControllerに戻る
+        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     
